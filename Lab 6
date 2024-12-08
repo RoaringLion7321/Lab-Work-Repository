@@ -1,0 +1,53 @@
+import pickle
+
+class Course_grades:
+    def __init__(self):
+
+        self.courseName = ""
+        self.stu_id = []
+        self.stu_grade = []
+
+    def get_details(self):
+        self.courseName = input("Enter the course Name: ")
+        stunum = int(input("Enter the number of students you want to add: "))
+
+        for x in range(0, stunum):
+            self.stu_id.append(input("Enter Student ID: "))
+            self.stu_grade.append(input("Enter the Student Grade: "))
+
+    def display(self):
+        print(self.stu_id)
+        print(self.stu_grade)
+        print(self.courseName)
+
+while True:
+    print("1. Create Courses")
+    print("2. Display Courses")
+    print("0. Exit")
+
+    option = input("Enter option: ")
+
+    if option == "1":
+        coursenum = int(input("Enter the number of courses you want to add: "))
+        f = open('grades_info.dat', 'ab')
+        for x in range(0, coursenum):
+            c = Course_grades()
+            c.get_details()
+            pickle.dump(c, f)
+        f.close()
+
+    if option == "2":
+        f = open('grades_info.dat','rb')
+
+        while 1:
+            try:
+                data = pickle.load(f)
+                print(data.courseName)
+                print(data.stu_id)
+                print(data.stu_grade)
+            except (EOFError):
+                break
+        f.close()
+
+    if option == "0":
+        break
